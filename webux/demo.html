@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      #background   { background-color: blue; }
+      body          { background-color: yellow; }
+      #red          { background-color: red; }
+      #green        { background-color: green; }
+      #blue         { background-color: blue; }
+      input[type="range"] { 
+        -webkit-appearance: none; 
+        height: 50px; 
+        width: 100%; 
+        align: center; 
+      }
+      input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        position: relative;
+        top: -1px;
+        z-index: 1;
+        width: 50px;
+        height: 50px;
+ 
+        -webkit-border-radius: 100px;
+        -moz-border-radius: 100px;
+        border-radius: 100px;
+        background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ebf1f6), color-stop(50%,#abd3ee), color-stop(51%,#89c3eb), color-stop(100%,#d5ebfb));
+      }
+    </style>
+    <script type='text/javascript'>
+      xmlhttp = new XMLHttpRequest();
+
+      function updateSlider(slider) {
+        xmlhttp.open("POST", "/actuators/leds?color=" + slider.id, false);
+        xmlhttp.send("intensity=" + slider.value);
+      }
+    </script>
+  </head>
+
+  <body>
+    
+    <div>
+      <input class='slider'
+             type='range' min='0' max='255'
+             id='red'   name='red' value='0'
+             onmouseup='updateSlider(this);'>
+      
+      <input class='slider' 
+             type='range' min='0' max='255'
+             id='green' name='green' value='0'
+             onmouseup='updateSlider(this);'>
+        
+      <input class='slider' 
+             type='range' min='0' max='255'
+             id='blue'  name='blue' value='0'
+             onmouseup='updateSlider(this);'>
+
+      <div style="text-align: center;">
+        <img src='demo.png'
+             alt='light source'
+             id='background'
+             style="{ width: 80%; }"
+             />
+      </div>
+    </div>
+  </body>
+</html>
