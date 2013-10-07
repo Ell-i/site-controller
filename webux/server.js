@@ -8,7 +8,9 @@ var url=require("url");
 function start(route, handle){
     function onRequest(request, response) {
         var postData = "";
-        var pathname = url.parse(request.url).pathname; 
+        var requrl   = url.parse(request.url);
+        var pathname = requrl.pathname;
+        var query    = requrl.search;
         var method   = request.method.toLowerCase()
         console.log("Request for " + pathname + " received.");
 
@@ -20,7 +22,7 @@ function start(route, handle){
         });
         
         request.addListener("end", function() { 
-            route(handle, method, pathname, response, postData);
+            route(handle, method, pathname, query, response, postData);
         }); 
     }
 
