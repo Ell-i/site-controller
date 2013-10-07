@@ -1,17 +1,22 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta name="viewport"
+          content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
     <style>
       #background   { background-color: blue; }
-      body          { background-color: yellow; }
+      body          { background-color: white; }
       #red          { background-color: red; }
       #green        { background-color: green; }
       #blue         { background-color: blue; }
       input[type="range"] { 
         -webkit-appearance: none; 
         height: 50px; 
-        width: 100%; 
-        align: center; 
+        width: 90%;
+        text-align: center;
       }
       input[type="range"]::-webkit-slider-thumb {
         -webkit-appearance: none;
@@ -31,37 +36,37 @@
       xmlhttp = new XMLHttpRequest();
 
       function updateSlider(slider) {
-        xmlhttp.open("POST", "/actuators/leds?color=" + slider.id, false);
-        xmlhttp.send("intensity=" + slider.value);
+        if (xmlhttp.readyState <= 1 || xmlhttp.readyState >= 4) {
+          xmlhttp.open("POST", "/actuators/leds?color=" + slider.id, true);
+          xmlhttp.send("intensity=" + slider.value);
+        }
       }
     </script>
   </head>
 
   <body>
     
-    <div>
+    <div style="text-width: 95%; text-align: center;">
       <input class='slider'
              type='range' min='0' max='255'
              id='red'   name='red' value='0'
-             onmouseup='updateSlider(this);'>
+             onchange='updateSlider(this);'>
       
       <input class='slider' 
              type='range' min='0' max='255'
              id='green' name='green' value='0'
-             onmouseup='updateSlider(this);'>
+             onchange='updateSlider(this);'>
         
       <input class='slider' 
              type='range' min='0' max='255'
              id='blue'  name='blue' value='0'
-             onmouseup='updateSlider(this);'>
+             onchange='updateSlider(this);'>
 
-      <div style="text-align: center;">
         <img src='demo.png'
              alt='light source'
              id='background'
-             style="{ width: 80%; }"
+             style='max-width: 100% height: auto;'
              />
-      </div>
     </div>
   </body>
 </html>

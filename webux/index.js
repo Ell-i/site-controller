@@ -3,7 +3,7 @@ var server   = require("./server");
 var router   = require("./router");
 var handlers = require("./handlers");
 
-var ip = "192.168.2.7"
+var ip = "192.168.2.100"
 
 var handle = {}
 
