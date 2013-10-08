@@ -34,11 +34,23 @@
     </style>
     <script type='text/javascript'>
       xmlhttp = new XMLHttpRequest();
+      xmlhttp.busy = 0;
+      xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState === 4) {
+          var slider = xmlhttp.busy;
+          xmlhttp.busy = 0;
+          if (xmlhttp.sendvalue !== slider.value) {
+            updateSlider(slider);
+          }
+        }
+      }
 
       function updateSlider(slider) {
-        if (xmlhttp.readyState <= 1 || xmlhttp.readyState >= 4) {
+        if (!xmlhttp.busy) {
+          xmlhttp.busy = slider;
           xmlhttp.open("POST", "/actuators/leds?color=" + slider.id, true);
           xmlhttp.send("intensity=" + slider.value);
+          xmlhttp.sendvalue = slider.value;
         }
       }
     </script>
