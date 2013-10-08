@@ -13,6 +13,8 @@ function start(route, handle){
         var query    = requrl.search;
         var method   = request.method.toLowerCase()
         console.log("Request for " + pathname + " received.");
+        if (!query)
+            query = "";
 
         request.setEncoding("utf8");
 
