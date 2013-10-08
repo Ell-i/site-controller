@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport"
+          content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <style>
+      #background   { background-color: white; }
+      body          { background-color: white; }
+      #red          { background-color: red; }
+      #green        { background-color: green; }
+      #blue         { background-color: blue; }
+
+      input[type="radio"].toggle {
+        display: none;
+      }
+
+div.outside {
+    text-align: center; 
+    margin: 20px;
+}
+
+span.inside {
+    border: 2px solid #000;
+}
+
+input[type="radio"].toggle:checked + label {
+    background-image: -moz-linear-gradient(bottom,#969696,#727272);
+    background-image: -webkit-gradient(linear,0 0,0 100%,from(#969696),#727272);
+    background-image: -webkit-linear-gradient(bottom,#969696,#727272);
+    background-image: -o-linear-gradient(bottom,#969696,#727272);
+    background-image: linear-gradient(to top,#969696,#727272);
+    -webkit-box-shadow: inset 0 1px 6px rgba(41, 41, 41, 0.2),0 1px 2px rgba(0,0,0,0.05);
+    -moz-box-shadow: inset 0 1px 6px 0 rgba(41, 41, 41, 0.2),0 1px 2px rgba(0,0,0,0.05);
+    box-shadow: inset 0 1px 6px rgba(41, 41, 41, 0.2),0 1px 2px rgba(0, 0, 0, 0.05);
+    cursor: default;
+    color: white;
+    border-color: #727272;
+    margin: 5px solid #727272;
+    ext-shadow: 0 1px 1px rgba(40, 40, 40, 0.75);
+}
+
+input[type="radio"].toggle + label {
+}
+
+input[type="radio"].toggle:checked + label.btn:hover {
+    background-color: inherit;
+    background-position: 0 0;
+    -webkit-transition: none;
+    -moz-trainsition: none;
+    transition: none;
+}
+
+input[type="radio"].toggle-left + label {
+    border-right: 0;
+    -webkit-border-top-right-radius: 0;
+    -webkit-border-bottom-right-radius: 0;
+    -moz-border-top-right-radius: 0;
+    -moz-border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+input[type="radio"].toggle-right + label {
+    -webkit-border-top-left-radius: 0;
+    -webkit-border-bottom-left-radius: 0;
+    -moz-border-top-left-radius: 0;
+    -moz-border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+</style>
+    <script type='text/javascript'>
+      xmlhttp = new XMLHttpRequest();
+
+      function updateRadio(radio, value) {
+        if (xmlhttp.readyState <= 1 || xmlhttp.readyState >= 4) {
+          if (value) {
+            document.getElementById("background").src = "lock_open.png";
+          } else {
+            document.getElementById("background").src = "lock_closed.png";
+          }
+          xmlhttp.open("POST", "/actuators/lock", true);
+          xmlhttp.send("value=" + value);
+        }
+      }
+    </script>
+  </head>
+
+  <body>
+    
+    <div class="outside">
+      <span class="inside"> 
+        <input type="radio" 
+               id="toggle-off" 
+               class="toggle toggle-left"
+               name="toggle"
+               checked
+               onchange='updateRadio(this, 0);'/>
+        <label for="toggle-off" class="btn">
+          &nbsp;&nbsp;Closed&nbsp;&nbsp;
+        </label>
+        
+        <input type="radio" 
+               id="toggle-on" 
+               class="toggle toggle-right"
+               name="toggle"
+               onchange='updateRadio(this, 1);'/>
+        <label for="toggle-on" class="btn">
+          &nbsp;&nbsp;Open&nbsp;&nbsp;
+        </label>
+      </span>
+    </div>
+      
+    <div style="text-width: 95%; text-align: center; margin: 4px;">
+      <img src='lock_closed.png'
+           alt='light source'
+           id='background'
+           style='max-width: 100% height: auto;'
+           />
+    </div>
+  </body>
+</html>
