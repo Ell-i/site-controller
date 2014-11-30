@@ -48,8 +48,11 @@
       function updateSlider(slider) {
         if (!xmlhttp.busy) {
           xmlhttp.busy = slider;
-          xmlhttp.open("POST", "/actuators/leds?color=" + slider.id, true);
-          xmlhttp.send("intensity=" + slider.value);
+          var color_r = document.getElementById('red').value;
+          var color_g = document.getElementById('green').value;
+          var color_b = document.getElementById('blue').value;
+          xmlhttp.open("POST", "/actuators/leds", true);
+          xmlhttp.send("r="+color_r+"&g="+color_g+"&b="+color_b);
           xmlhttp.sendvalue = slider.value;
         }
       }
