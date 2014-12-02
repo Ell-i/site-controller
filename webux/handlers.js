@@ -9,12 +9,14 @@ function file(filename) {
 }
 
 var coapOjb = require('coap');
+var url = require('url');
 
 function coap(urlbase) {
     return function (method, query, response, postData) {
-        console.log("Request handler 'coap' was called: method=" + method + ", query=" + query + ", postData=" + postData);
+        var parsed_url = url.parse(urlbase);
+        console.log("Request handler 'coap' was called: hostname=" + parsed_url.hostname + ", method=" + method + ", query=" + query + ", postData=" + postData);
 
-        var coapMsg = {method: "put", hostname: "10.0.0.2", pathname:"leds", confirmable:"false"}
+        var coapMsg = {method: "put", hostname:parsed_url.hostname, pathname:"leds", confirmable:"true"}
         var request = coapOjb.request(coapMsg);
         var querystring = require('querystring');
         var parsed;
@@ -60,5 +62,92 @@ function coap(urlbase) {
     }
 }
 
+var intervalObj;
+var paths = [ "10.1.1.16", /* Mannequins */
+              "10.1.1.17",
+              "10.1.1.18",
+              "10.1.1.32", /* Shelves */
+              "10.1.1.33",
+              "10.1.1.34",
+              "10.1.1.35",
+              "10.1.1.36",
+              "10.1.1.37",
+              "10.1.1.38",
+              "10.1.1.39",
+              "10.1.1.40",
+              "10.1.1.41",
+              "10.1.1.42",
+              "10.1.1.43"];
+
+function commands(comm) {
+    return function (method, query, response, postData) {
+        console.log("Request handler 'commands' was called: command=" + comm);
+
+        if (comm === 'start') {
+          console.log("set interval");
+          clearInterval(intervalObj);
+          /* An interval of 100ms seems to work fine when sending
+           * messages to all the nodes (15)
+           */
+          intervalObj = setInterval(interval_callback, 100);
+        }
+        if (comm === 'stop') {
+          console.log("clear interval");
+          clearInterval(intervalObj);
+        }
+        if (comm === 'off') {
+          console.log("all leds off");
+          clearInterval(intervalObj);
+          for (var i=0; i < paths.length; i++) {
+            var coapMsg = {method: "put", hostname:paths[i], pathname:"leds", confirmable:"true"}
+            var request = coapOjb.request(coapMsg);
+            var buf = new Buffer(3);
+            buf.writeUInt8(0, 0);
+            buf.writeUInt8(0, 1);
+            buf.writeUInt8(0, 2);
+            request.write(buf);
+            request.on('response', function(res) {
+              if (res.code === "2.04" || "2.05") {
+                /* Success */
+              } else {
+                /* Failure */
+              }
+            })
+            request.end();
+          }
+        }
+        response.writeHead(200, {"Content-Type": "text/plain"});
+        response.write("Command '" + comm +"' processed succesfully");
+        response.end();
+
+    }
+}
+
+function interval_callback() {
+  var s = require("./static");
+  var a;
+  s.increase(function (nn) {a = nn});
+  for (var i=0; i < paths.length; i++) {
+    var coapMsg = {method: "put", hostname:paths[i], pathname:"leds", confirmable:"false"}
+    var request = coapOjb.request(coapMsg);
+    var buf = new Buffer(3);
+    buf.writeUInt8(a, 0);
+    buf.writeUInt8(a, 1);
+    buf.writeUInt8(a, 2);
+    request.write(buf);
+    request.on('response', function(res) {
+      if (res.code === "2.04" || "2.05") {
+        /* Success */
+      } else {
+        /* Failure */
+      }
+    })
+    request.end();
+
+  }
+  console.log("count:" + a);
+}
+
 exports.file = file;
 exports.coap = coap;
+exports.commands = commands;
