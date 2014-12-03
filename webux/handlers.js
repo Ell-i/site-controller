@@ -79,6 +79,26 @@ var paths = [ "10.1.1.16", /* Mannequins */
               "10.1.1.42",
               "10.1.1.43"];
 
+var rgbLeds = {
+                "ahto-s-rgb"        : "10.1.1.38",
+                "ahto-m-rgb"        : "10.1.1.33",
+                "ahto-l-rgb"        : "10.1.1.34",
+                "vallila-s-rgb"     : "10.1.1.42",
+                "vallila-m-rgb"     : "10.1.1.40",
+                "vallila-l-rgb"     : "10.1.1.36",
+                "mannequin-ahto"    : "10.1.1.16",
+                "mannequin-vallila" : "10.1.1.17",
+                "mannequin-rokka"   : "10.1.1.18"
+              };
+var whiteLeds = {
+                  "ahto-s-w"          : "10.1.1.39",
+                  "ahto-m-w"          : "10.1.1.32",
+                  "ahto-l-w"          : "10.1.1.35",
+                  "vallila-s-w"       : "10.1.1.43",
+                  "vallila-m-w"       : "10.1.1.41",
+                  "vallila-l-w"       : "10.1.1.37"
+                };
+
 function commands(comm) {
     return function (method, query, response, postData) {
         console.log("Request handler 'commands' was called: command=" + comm);
@@ -116,6 +136,23 @@ function commands(comm) {
             request.end();
           }
         }
+        if (comm === 'shelveson') {
+          console.log("all white leds to shadow elimination value");
+          clearInterval(intervalObj);
+          for (var i=0; i < Object.keys(whiteLeds).length; i++) {
+            var idle_intensity = 100;
+            var path = whiteLeds[Object.keys(whiteLeds)[i]];
+            var coapMsg = {method: "put", hostname:path, pathname:"leds", confirmable:"true"}
+            console.log(coapMsg);
+            var request = coapOjb.request(coapMsg);
+            var buf = new Buffer(3);
+            buf.writeUInt8(idle_intensity, 0);
+            buf.writeUInt8(idle_intensity, 1);
+            buf.writeUInt8(idle_intensity, 2);
+            request.write(buf);
+            request.end();
+          }
+        }
         response.writeHead(200, {"Content-Type": "text/plain"});
         response.write("Command '" + comm +"' processed succesfully");
         response.end();
@@ -135,13 +172,6 @@ function interval_callback() {
     buf.writeUInt8(a, 1);
     buf.writeUInt8(a, 2);
     request.write(buf);
-    request.on('response', function(res) {
-      if (res.code === "2.04" || "2.05") {
-        /* Success */
-      } else {
-        /* Failure */
-      }
-    })
     request.end();
 
   }
