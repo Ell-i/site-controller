@@ -160,6 +160,12 @@ function commands(comm) {
     }
 }
 
+function highlight(element_string) {
+}
+
+function lowlight(element_string) {
+}
+
 function interval_callback() {
   var s = require("./static");
   var a;
@@ -181,3 +187,5 @@ function interval_callback() {
 exports.file = file;
 exports.coap = coap;
 exports.commands = commands;
+exports.highlight = highlight;
+exports.lowlight = lowlight;

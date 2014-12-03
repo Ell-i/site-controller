@@ -55,6 +55,27 @@ handle["/commands/stop"] = handlers.commands("stop");
 handle["/commands/off"] = handlers.commands("off");
 handle["/commands/shelves/on"] = handlers.commands("shelveson");
 
+/* Highlight */
+handle["highlight/shelves/Ahto-S"]    = handlers.highlight("shelves/Ahto-S");
+handle["highlight/shelves/Ahto-M"]    = handlers.highlight("shelves/Ahto-M");
+handle["highlight/shelves/Ahto-L"]    = handlers.highlight("shelves/Ahto-L");
+handle["highlight/shelves/Vallila-S"] = handlers.highlight("shelves/Vallila-S");
+handle["highlight/shelves/Vallila-M"] = handlers.highlight("shelves/Vallila-M");
+handle["highlight/shelves/Vallila-L"] = handlers.highlight("shelves/Vallila-L");
+handle["highlight/mannequins/Ahto"]       = handlers.highlight("mannequins/Ahto");
+handle["highlight/mannequins/Vallila"]    = handlers.highlight("mannequins/Vallila");
+handle["highlight/mannequins/Rokka"]      = handlers.highlight("mannequins/Rokka");
+
+/* Lowlight */
+handle["lowlight/shelves/Ahto-S"]    = handlers.lowlight("shelves/Ahto-S");
+handle["lowlight/shelves/Ahto-M"]    = handlers.lowlight("shelves/Ahto-M");
+handle["lowlight/shelves/Ahto-L"]    = handlers.lowlight("shelves/Ahto-L");
+handle["lowlight/shelves/Vallila-S"] = handlers.lowlight("shelves/Vallila-S");
+handle["lowlight/shelves/Vallila-M"] = handlers.lowlight("shelves/Vallila-M");
+handle["lowlight/shelves/Vallila-L"] = handlers.lowlight("shelves/Vallila-L");
+handle["lowlight/mannequins/Ahto"]       = handlers.lowlight("mannequins/Ahto");
+handle["lowlight/mannequins/Vallila"]    = handlers.lowlight("mannequins/Vallila");
+handle["lowlight/mannequins/Rokka"]      = handlers.lowlight("mannequins/Rokka");
 
 
 server.start(router.route, handle);
