@@ -216,6 +216,24 @@ function light(element_string, target_state) {
   }
 }
 
+function init() {
+  return function (method, query, response, postData) {
+    var s = require("./static");
+    var all_states;
+    s.getAll(function (nn) {all_states = nn});
+    for (var i= 0; i< Object.keys(all_states).length; i++) {
+      var temp_state = all_states[Object.keys(all_states)[i]];
+        set_state(temp_state, "steady");
+        temp_state.current = "low";
+        temp_state.target = "low";
+    }
+    response.writeHead(200, {"Content-Type": "text/plain"});
+    response.write("System initalised to steady state successfully");
+    response.end();
+
+  }
+}
+
 function set_state(state, level) {
   var led_r = state[level].r;
   var led_g = state[level].g;
@@ -255,3 +273,4 @@ exports.file = file;
 exports.coap = coap;
 exports.commands = commands;
 exports.light = light;
+exports.init = init;
