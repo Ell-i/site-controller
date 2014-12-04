@@ -119,14 +119,7 @@ function commands(comm) {
           console.log("all leds off");
           clearInterval(intervalObj);
           for (var i=0; i < paths.length; i++) {
-            var coapMsg = {method: "put", hostname:paths[i], pathname:"leds", confirmable:"true"}
-            var request = coapOjb.request(coapMsg);
-            var buf = new Buffer(3);
-            buf.writeUInt8(0, 0);
-            buf.writeUInt8(0, 1);
-            buf.writeUInt8(0, 2);
-            request.write(buf);
-            request.end();
+            send_coap_rgb(paths[i], 0, 0, 0);
           }
         }
         if (comm === 'shelveson') {
@@ -135,15 +128,7 @@ function commands(comm) {
           for (var i=0; i < Object.keys(whiteLeds).length; i++) {
             var idle_intensity = 100;
             var path = whiteLeds[Object.keys(whiteLeds)[i]];
-            var coapMsg = {method: "put", hostname:path, pathname:"leds", confirmable:"true"}
-            console.log(coapMsg);
-            var request = coapOjb.request(coapMsg);
-            var buf = new Buffer(3);
-            buf.writeUInt8(idle_intensity, 0);
-            buf.writeUInt8(idle_intensity, 1);
-            buf.writeUInt8(idle_intensity, 2);
-            request.write(buf);
-            request.end();
+            send_coap_rgb(path, idle_intensity, idle_intensity, idle_intensity);
           }
         }
         response.writeHead(200, {"Content-Type": "text/plain"});
@@ -261,15 +246,7 @@ function interval_callback() {
   var a;
   s.increase(function (nn) {a = nn});
   for (var i=0; i < paths.length; i++) {
-    var coapMsg = {method: "put", hostname:paths[i], pathname:"leds", confirmable:"false"}
-    var request = coapOjb.request(coapMsg);
-    var buf = new Buffer(3);
-    buf.writeUInt8(a, 0);
-    buf.writeUInt8(a, 1);
-    buf.writeUInt8(a, 2);
-    request.write(buf);
-    request.end();
-
+    send_coap_rgb(paths[i], a, a, a);
   }
   console.log("count:" + a);
 }
