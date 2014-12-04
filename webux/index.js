@@ -55,6 +55,7 @@ handle["/commands/stop"] = handlers.commands("stop");
 handle["/commands/off"] = handlers.commands("off");
 handle["/commands/shelves/on"] = handlers.commands("shelveson");
 handle["/commands/init"] = handlers.init();
+handle["/commands/all"] = handlers.commands("all");
 
 /* Highlight */
 handle["/highlight/shelves/Ahto-S"]    = handlers.light("shelves/Ahto-S", "high");

@@ -131,6 +131,35 @@ function commands(comm) {
             send_coap_rgb(path, idle_intensity, idle_intensity, idle_intensity);
           }
         }
+        if (comm === 'all') {
+          console.log("all RGB and CWC leds to specified value");
+          /* Stop any ongoing activity */
+          clearInterval(intervalObj);
+
+          var querystring = require('querystring');
+          var parsed;
+          if (method === 'post') {
+            parsed = querystring.parse(postData);
+          }
+          else if (method === 'get') {
+            parsed = querystring.parse(query.substr(1));
+          }
+          else {
+            parsed = querystring.parse("r=0&g=0&b=0&w=0");
+            console.log("Method unsupported, using zero values");
+          }
+
+          for (var i=0; i < Object.keys(rgbLeds).length; i++) {
+            var path = rgbLeds[Object.keys(rgbLeds)[i]];
+            send_coap_rgb(path, parsed.r, parsed.g, parsed.b);
+          }
+
+          for (var i=0; i < Object.keys(whiteLeds).length; i++) {
+            var path = whiteLeds[Object.keys(whiteLeds)[i]];
+            send_coap_rgb(path, parsed.w, parsed.w, parsed.w);
+          }
+
+        }
         response.writeHead(200, {"Content-Type": "text/plain"});
         response.write("Command '" + comm +"' processed succesfully");
         response.end();

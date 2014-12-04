@@ -12,6 +12,7 @@
       #red          { background-color: red; }
       #green        { background-color: green; }
       #blue         { background-color: blue; }
+      #white        { background-color: white; }
       input[type="range"] { 
         -webkit-appearance: none; 
         height: 50px; 
@@ -51,8 +52,9 @@
           var color_r = document.getElementById('red').value;
           var color_g = document.getElementById('green').value;
           var color_b = document.getElementById('blue').value;
-          xmlhttp.open("POST", "/actuators/leds", true);
-          xmlhttp.send("r="+color_r+"&g="+color_g+"&b="+color_b);
+          var color_w = document.getElementById('white').value;
+          xmlhttp.open("POST", "/commands/all", true);
+          xmlhttp.send("r="+color_r+"&g="+color_g+"&b="+color_b+"&w="+color_w);
           xmlhttp.sendvalue = slider.value;
         }
       }
@@ -75,6 +77,11 @@
       <input class='slider' 
              type='range' min='0' max='255'
              id='blue'  name='blue' value='0'
+             onchange='updateSlider(this);'>
+
+      <input class='slider'
+             type='range' min='0' max='255'
+             id='white'  name='white' value='0'
              onchange='updateSlider(this);'>
 
         <img src='demo.png'
