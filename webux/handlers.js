@@ -126,13 +126,6 @@ function commands(comm) {
             buf.writeUInt8(0, 1);
             buf.writeUInt8(0, 2);
             request.write(buf);
-            request.on('response', function(res) {
-              if (res.code === "2.04" || "2.05") {
-                /* Success */
-              } else {
-                /* Failure */
-              }
-            })
             request.end();
           }
         }
@@ -160,10 +153,76 @@ function commands(comm) {
     }
 }
 
-function highlight(element_string) {
+var intervalObjs = {
+  "shelves/Ahto-S"        : new Object(),
+  "shelves/Ahto-M"        : new Object(),
+  "shelves/Ahto-L"        : new Object(),
+  "shelves/Vallila-S"     : new Object(),
+  "shelves/Vallila-M"     : new Object(),
+  "shelves/Vallila-L"     : new Object(),
+  "mannequins/Ahto"       : new Object(),
+  "mannequins/Vallila"    : new Object(),
+  "mannequins/Rokka"      : new Object(),
+};
+
+function light(element_string, target_state) {
+  return function (method, query, response, postData) {
+    var s = require("./static");
+    var state;
+    s.getState(element_string, function (nn) {state = nn});
+
+    if (state.current == target_state) {
+      response.writeHead(200, {"Content-Type": "text/plain"});
+      response.write(target_state + "light element '" + element_string +"' already in desired state");
+      response.end();
+      return;
+    }
+    if (state.target == target_state) {
+      response.writeHead(200, {"Content-Type": "text/plain"});
+      response.write(target_state + "light element '" + element_string +"' already toward desired state");
+      response.end();
+      return;
+    }
+    /* Temporal implementation, without fading or
+     * checking that other elemnts are highlighted
+     */
+    state.current = target_state;
+    state.target = target_state;
+
+    var state_p;
+    if (target_state == "low") {
+      state_p = "steady";
+    }
+    else {
+      state_p = "active";
+    }
+    var led_r = state[state_p].r;
+    var led_g = state[state_p].g;
+    var led_b = state[state_p].b;
+    send_coap_rgb(state.address_rgb, led_r, led_g, led_b);
+    if (state.white_available == "yes") {
+      var led_c1 = state[state_p].c1;
+      var led_w  = state[state_p].w;
+      var led_c2 = state[state_p].c2;
+      send_coap_rgb(state.address_w, led_c1, led_w, led_c2);
+    }
+    /* Temporal Implementation End */
+    response.writeHead(200, {"Content-Type": "text/plain"});
+    response.write(target_state + "light element '" + element_string +"' successful");
+    response.end();
+
+  }
 }
 
-function lowlight(element_string) {
+function send_coap_rgb(address, r, g, b) {
+  var coapMsg = {method: "put", hostname:address, pathname:"leds", confirmable:"false"}
+  var request = coapOjb.request(coapMsg);
+  var buf = new Buffer(3);
+  buf.writeUInt8(r, 0);
+  buf.writeUInt8(g, 1);
+  buf.writeUInt8(b, 2);
+  request.write(buf);
+  request.end();
 }
 
 function interval_callback() {
@@ -187,5 +246,4 @@ function interval_callback() {
 exports.file = file;
 exports.coap = coap;
 exports.commands = commands;
-exports.highlight = highlight;
-exports.lowlight = lowlight;
+exports.light = light;
