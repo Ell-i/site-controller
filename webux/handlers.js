@@ -165,6 +165,15 @@ var intervalObjs = {
   "mannequins/Rokka"      : new Object(),
 };
 
+var shelves_list = {
+  "shelves/Ahto-S"    : new Object(),
+  "shelves/Ahto-M"    : new Object(),
+  "shelves/Ahto-L"    : new Object(),
+  "shelves/Vallila-S" : new Object(),
+  "shelves/Vallila-M" : new Object(),
+  "shelves/Vallila-L" : new Object(),
+};
+
 function light(element_string, target_state) {
   return function (method, query, response, postData) {
     var s = require("./static");
@@ -183,35 +192,57 @@ function light(element_string, target_state) {
       response.end();
       return;
     }
-    /* Temporal implementation, without fading or
-     * checking that other elemnts are highlighted
+    /* Temporal implementation, without fading.
      */
+
+    if (target_state == "high" &&
+      shelves_list[element_string] != 'undefined') {
+      // search for any shelf with current or target state
+      var all_states;
+      s.getAll(function (nn) {all_states = nn});
+      for (var i= 0; i< Object.keys(shelves_list).length; i++) {
+        var temp_state = all_states[Object.keys(shelves_list)[i]];
+        if (temp_state.current == "high" || temp_state.target == "high") {
+          // switch to low state in temprary implementation
+          set_state(temp_state, "steady");
+          temp_state.current = "low";
+          temp_state.target = "low";
+        }
+      }
+    }
+
+
     state.current = target_state;
     state.target = target_state;
 
-    var state_p;
+    var level;
     if (target_state == "low") {
-      state_p = "steady";
+      level = "steady";
     }
     else {
-      state_p = "active";
+      level = "active";
     }
-    var led_r = state[state_p].r;
-    var led_g = state[state_p].g;
-    var led_b = state[state_p].b;
-    send_coap_rgb(state.address_rgb, led_r, led_g, led_b);
-    if (state.white_available == "yes") {
-      var led_c1 = state[state_p].c1;
-      var led_w  = state[state_p].w;
-      var led_c2 = state[state_p].c2;
-      send_coap_rgb(state.address_w, led_c1, led_w, led_c2);
-    }
+    set_state(state, level);
     /* Temporal Implementation End */
     response.writeHead(200, {"Content-Type": "text/plain"});
     response.write(target_state + "light element '" + element_string +"' successful");
     response.end();
 
   }
+}
+
+function set_state(state, level) {
+  var led_r = state[level].r;
+  var led_g = state[level].g;
+  var led_b = state[level].b;
+  send_coap_rgb(state.address_rgb, led_r, led_g, led_b);
+  if (state.white_available == "yes") {
+    var led_c1 = state[level].c1;
+    var led_w  = state[level].w;
+    var led_c2 = state[level].c2;
+    send_coap_rgb(state.address_w, led_c1, led_w, led_c2);
+  }
+
 }
 
 function send_coap_rgb(address, r, g, b) {
