@@ -1,10 +1,10 @@
 { "day" : {
 	"night" : {
 		"start" : 2200,
-		"wakeup" : 700,
-		"wake-win" : 80,
+		"end" : 700,
 		"bright-max" : 95,
-		"delay" : 5
+		"delay" : 5,
+		"dose" : 80
 	},
 	"therapy" : {
 		"start" : 700,
