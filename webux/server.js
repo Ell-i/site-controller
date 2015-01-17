@@ -5,6 +5,7 @@
 var http=require("http");
 var url=require("url");
 var dali=require("dali-lib");
+var config=require("./config_static");
 
 function start(route, handle){
     function onRequest(request, response) {
@@ -33,6 +34,7 @@ function start(route, handle){
     console.log("Server has started.");
 
     dali.init("10.254.1.1", function(){});
+    config.init();
 }
 
 exports.start = start;
