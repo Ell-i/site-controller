@@ -2,20 +2,16 @@
 /* exports array of values to feed to devices on site. */
 var http=require("http");
 
-var options = {
-    host: 'ojousima.net',
-    port: 80,
-    path: '/illuminati/example_data.json'
-};
+
 
 var lockState = 0;
 
-function poll(cb){
+function poll(options, cb){
     var state = "";
     var pollcmd = require("./pollcmd");
     pollcmd.clearChunks();
     http.get(options, function(res) {
-        console.log("Got response: " + res.statusCode);
+        //console.log("Got response: " + res.statusCode);
         res.on('data', function (chunk) {
             //console.log('BODY: ' + chunk);
             var pollcmd = require("./pollcmd");
@@ -38,12 +34,12 @@ function poll(cb){
 
 function lock(){
     lockState = 1;
-    console.log("Locked");
+   // console.log("Locked");
 }
 
 function unlock(){
     lockState = 0;
-    console.log("Unlocked");
+   // console.log("Unlocked");
 }
 
 function isLocked(){

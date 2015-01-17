@@ -4,6 +4,8 @@ var router   = require("./router");
 var handlers = require("./handlers");
 var coapPinger = require("./coap_pinger");
 
+var dali = require('dali-lib');
+
 var handle = {}
 
 handle["/"]               = handlers.file("demo.html");
@@ -88,51 +90,110 @@ server.start(router.route, handle);
 
 
 
-
-
-
-
-
-/*
-
-
-
-
-
-var chunks = "";
+var sceneChunks = "";
+var ledChunks = "";
+var sceneState = {};
 var ledState = {};
 
-function task_poll() {
-    setTimeout(task_poll, 250); //Set timeout 1st to avoid jitter in calling.
+function task_poll_scenes() {
+
     var poller = require("./poller");
 
     if(poller.isLocked()){
         console.log("Lock hit");
+        setTimeout(task_poll_scenes, 50); 
         return;
     }
     poller.lock();
-    poller.poll(function(nn){chunks=nn;});
+    setTimeout(task_poll_scenes, 500); 
+	var options = {
+	    host: 'ojousima.net',
+	    port: 80,
+	    path: '/illuminati/scene_data.json'
+	};
+    poller.poll(options, function(nn){sceneChunks=nn;});
 
-    if(chunks != ""){
-      console.log(chunks);
-      ledState = JSON.parse(chunks);
+    if(sceneChunks != ""){
+      //console.log(chunks);
+      sceneState = JSON.parse(sceneChunks);
+     // console.log(sceneState);
+     // console.log(sceneState.scene);
+    }
+
+    sendScene();
+}
+
+function task_poll_leds() {
+    //console.log("Querying leds");
+    var poller = require("./poller");
+
+    if(poller.isLocked()){
+        console.log("Lock hit LEDS");
+        setTimeout(task_poll_leds, 50);
+        return;
+    }
+    poller.lock();
+    setTimeout(task_poll_leds, 500);
+	var options = {
+	    host: 'ojousima.net',
+	    port: 80,
+	    path: '/illuminati/example_data.json'
+	};
+    poller.poll(options, function(nn){ledChunks=nn;});
+
+    if(ledChunks != ""){
+      //console.log(chunks);
+      ledState = JSON.parse(ledChunks);
+     // console.log(sceneState);
+     // console.log(sceneState.scene);
     }
 
     sendcmds();
 }
 
-
-
+var lastLedState = {};
 function sendcmds() {
     
     if(typeof ledState.led1 == "undefined"){
 	return;
     }
-    console.log(ledState.led1);
-    coapPinger.sendCoapLeds("10.0.0.2", ledState.led1, ledState.led2, ledState.led3, ledState.led4);
-
+   // console.log("checking leds");
+    if(lastLedState.led1 != ledState.led1 ||
+       lastLedState.led2 != ledState.led2 ||
+       lastLedState.led3 != ledState.led3 ||
+       lastLedState.led4 != ledState.led4){
+    console.log("Sending leds");
+    coapPinger.sendCoapLeds("10.254.1.140", ledState.led1, ledState.led2, ledState.led3, ledState.led4);
+    lastLedState = ledState;
+    }
+    
+    
 }
 
-task_poll();
+var lastScene = 0;
+function sendScene() {
+    
+    if(typeof sceneState.scene == "undefined"){
+	return;
+    }
+
+    if(sceneState.scene == "SCENE 1") scene = 1;
+    if(sceneState.scene == "SCENE 2") scene = 2;
+    if(sceneState.scene == "SCENE 3") scene = 3;
+    if(sceneState.scene == "SCENE 4") scene = 4;
+    if(sceneState.scene == "SCENE 5") scene = 5;
+    if(sceneState.scene == "SCENE 6") scene = 6;
+    if(sceneState.scene == "SCENE 7") scene = 7;
+    if(sceneState.scene == "SCENE 8") scene = 8;
+    
+    if(scene != lastScene){
+    dali.recall_scene_group(100, 1, scene, 0, 250);
+    lastScene = scene;
+    console.log ("Setting scene " + scene);
+    }
+}
+
+task_poll_scenes();
+setTimeout(task_poll_leds(), 250);
 console.log("polling has started");
-*/
+
