@@ -1,6 +1,7 @@
 var fs = require('fs');
 var dali = require('dali-lib');
 
+
 function file(filename) {
     return function (method, query, response, postData) {
         console.log("Request handler 'file' was called.");
@@ -8,6 +9,18 @@ function file(filename) {
         fs.createReadStream(filename).pipe(response);
     }
 }
+
+var tim = require('./time');
+function time() {
+    return function (method, query, response, postData) {
+        console.log("Request handler 'time' was called.");
+        response.writeHead(200, {"Content-Type": "text/html"});
+        response.write(tim.get_time_string());
+        response.end();
+    }
+
+}
+
 
 var coapOjb = require('coap');
 var url = require('url');
@@ -300,6 +313,7 @@ function interval_callback() {
 }
 
 exports.file = file;
+exports.time = time;
 exports.coap = coap;
 exports.commands = commands;
 exports.light = light;

@@ -6,12 +6,13 @@ var coapPinger = require("./coap_pinger");
 
 var handle = {}
 
-handle["/"]               = handlers.file("demo.html");
-handle["/index.html"]     = handlers.file("demo.html");
+//handle["/"]               = handlers.file("demo.html");
+//handle["/index.html"]     = handlers.file("demo.html");
 handle["/lock.html"]      = handlers.file("lock.html");
 handle["/demo.png"]       = handlers.file("demo.png");
 handle["/lock_open.png"]  = handlers.file("lock_open.png");
 handle["/lock_closed.png"]= handlers.file("lock_closed.png");
+
 /* Mannequins */
 handle["/actuators/leds16"] = handlers.coap("coap://10.1.1.16/leds");
 handle["/actuators/leds17"] = handlers.coap("coap://10.1.1.17/leds");
@@ -79,6 +80,8 @@ handle["/lowlight/shelves/Vallila-L"] = handlers.light("shelves/Vallila-L", "low
 handle["/lowlight/mannequins/Ahto"]       = handlers.light("mannequins/Ahto", "low");
 handle["/lowlight/mannequins/Vallila"]    = handlers.light("mannequins/Vallila", "low");
 handle["/lowlight/mannequins/Rokka"]      = handlers.light("mannequins/Rokka", "low");
+
+handle["/time"]= handlers.time();
 
 
 server.start(router.route, handle);
