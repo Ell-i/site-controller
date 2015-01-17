@@ -1,0 +1,3 @@
+[submodule "webux/node_modules/dali-lib"]
+	path = webux/node_modules/dali-lib
+	url = git@github.com:supramaterial/dali-lib.git
