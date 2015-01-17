@@ -1,4 +1,5 @@
 var fs = require('fs');
+var dali = require('dali-lib');
 
 function file(filename) {
     return function (method, query, response, postData) {
