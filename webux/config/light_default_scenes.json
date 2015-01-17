@@ -1,15 +1,15 @@
 { "scenes" : {
     "default" : {
-        "bright" : "80"
+        "bright" : 80
     },
     "dimmed" : {
-        "bright" : "40"
+        "bright" : 40
     },
     "bright" : {
-        "bright" : "100"
+        "bright" : 100
     },
     "off" : {
-        "bright" : "0"
+        "bright" : 0
     }
 }
 }
