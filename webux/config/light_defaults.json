@@ -3,8 +3,8 @@
 		"start" : 2200,
 		"end" : 700,
 		"bright-max" : 95,
-		"delay" : 5
-		"dose" : 80,
+		"delay" : 5,
+		"dose" : 80
 	},
 	"therapy" : {
 		"start" : 700,
