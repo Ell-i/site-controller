@@ -2,6 +2,7 @@
 var server   = require("./server");
 var router   = require("./router");
 var handlers = require("./handlers");
+var coapPinger = require("./coap_pinger");
 
 var handle = {}
 
@@ -81,3 +82,40 @@ handle["/lowlight/mannequins/Rokka"]      = handlers.light("mannequins/Rokka", "
 
 
 server.start(router.route, handle);
+
+var chunks = "";
+var ledState = {};
+
+function task_poll() {
+    setTimeout(task_poll, 250); //Set timeout 1st to avoid jitter in calling.
+    var poller = require("./poller");
+
+    if(poller.isLocked()){
+        console.log("Lock hit");
+        return;
+    }
+    poller.lock();
+    poller.poll(function(nn){chunks=nn;});
+
+    if(chunks != ""){
+      console.log(chunks);
+      ledState = JSON.parse(chunks);
+    }
+
+    sendcmds();
+}
+
+
+
+function sendcmds() {
+    
+    if(typeof ledState.led1 == "undefined"){
+	return;
+    }
+    console.log(ledState.led1);
+    coapPinger.sendCoapLeds("10.0.0.2", ledState.led1, ledState.led2, ledState.led3, ledState.led4);
+
+}
+
+task_poll();
+console.log("polling has started");
