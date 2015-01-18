@@ -43,34 +43,34 @@ function process(element) {
             break;
 
         case "ceiling":
-            dali.direct_level_device(ceiling1,  element.state, element.delay)
-            dali.direct_level_device(ceiling2,  element.state, element.delay)
+            dali.direct_level_device(ceiling1.address,  element.state, element.delay)
+            dali.direct_level_device(ceiling2.address,  element.state, element.delay)
             break;
 
         case "bedroom":
-            dali.direct_level_device(night1,    element.state, element.delay)
-            dali.direct_level_device(sad1,      element.state, element.delay)
-            dali.direct_level_device(ceiling1,  element.state, element.delay)
+            dali.direct_level_device(night1.address,    element.state, element.delay)
+            dali.direct_level_device(sad1.address,      element.state, element.delay)
+            dali.direct_level_device(ceiling1.address,  element.state, element.delay)
             break;
 
         case "night1":
-            dali.direct_level_device(night1,    element.state, element.delay)
+            dali.direct_level_device(night1.address,    element.state, element.delay)
             break;
 
         case "sad1":
-            dali.direct_level_device(sad1,      element.state, element.delay)
+            dali.direct_level_device(sad1.address,      element.state, element.delay)
             break;
 
         case "sad2":
-            dali.direct_level_device(sad2,      element.state, element.delay)
+            dali.direct_level_device(sad2.address,      element.state, element.delay)
             break;
 
         case "ceiling1":
-            dali.direct_level_device(ceiling1,  element.state, element.delay)
+            dali.direct_level_device(ceiling1.address,  element.state, element.delay)
             break;
 
         case "ceiling2":
-            dali.direct_level_device(ceiling2,  element.state, element.delay)
+            dali.direct_level_device(ceiling2.address,  element.state, element.delay)
             break;
     }
 }
