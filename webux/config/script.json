@@ -1,110 +1,110 @@
-{
-    "entry": {
+[
+    {
         "time"  : 0,
         "set"   : "all",
         "state" : 0,
         "delay" : 100
     },
-    "entry": {
+    {
         "time"  : 10800,
         "set"   : "ceiling",
         "state" : 40,
         "delay" : 200
     },
-    "entry": {
+    {
         "time"  : 11100,
         "set"   : "ceiling",
         "state" : 0,
         "delay" : 200
     },
-    "entry": {
+    {
         "time"  : 27000,
         "set"   : "bedroom",
         "state" : 100,
         "delay" : 30000
     },
-    "entry": {
+    {
         "time"  : 27300,
         "set"   : "ceiling",
         "state" : 80,
         "delay" : 200
     },
-    "entry": {
+    {
         "time"  : 27300,
         "set"   : "sad1",
         "state" : 0,
         "delay" : 400
     },
-    "entry": {
+    {
         "time"  : 27300,
         "set"   : "sad2",
         "state" : 0,
         "delay" : 400
     },
-    "entry": {
+    {
         "time"  : 27300,
         "set"   : "night1",
         "state" : 0,
         "delay" : 400
     },
-    "entry": {
+    {
         "time"  : 28800,
         "set"   : "sad1",
         "state" : 100,
         "delay" : 300
     },
-    "entry": {
+    {
         "time"  : 30600,
         "set"   : "sad1",
         "state" : 0,
         "delay" : 300
     },
-    "entry": {
+    {
         "time"  : 32400,
         "set"   : "sad2",
         "state" : 100,
         "delay" : 300
     },
-    "entry": {
+    {
         "time"  : 33300,
         "set"   : "sad2",
         "state" : 0,
         "delay" : 300
     },
-    "entry": {
+    {
         "time"  : 34200,
         "set"   : "all",
         "state" : 0,
         "delay" : 200
     },
-    "entry": {
+    {
         "time"  : 57600,
         "set"   : "ceiling",
         "state" : 80,
         "delay" : 200
     },
-    "entry": {
+    {
         "time"  : 59400,
         "set"   : "sad1",
         "state" : 100,
         "delay" : 300
     },
-    "entry": {
+    {
         "time"  : 61200,
         "set"   : "sad1",
         "state" : 0,
         "delay" : 300
     },
-    "entry": {
+    {
         "time"  : 75600,
         "set"   : "ceiling",
         "state" : 40,
         "delay" : 200
     },
-    "entry": {
+    {
         "time"  : 82800,
         "set"   : "ceiling",
         "state" : 0,
         "delay" : 200
     }
-}
+]
