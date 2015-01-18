@@ -6,6 +6,7 @@ current = {
     "light_changes":        {"path":"light_changes.json",           "data":undefined},
     "light_default_scenes": {"path":"light_default_scenes.json",    "data":undefined},
     "light_defaults":       {"path":"light_defaults.json",          "data":undefined},
+    "script":               {"path":"script.json",                  "data":undefined},
 }
 
 function init() {
@@ -16,4 +17,9 @@ function init() {
     }
 }
 
-module.exports.init = init;
+function getData(string, cb) {
+    cb(current[string].data);
+}
+
+module.exports.init     = init;
+module.exports.getData  = getData;

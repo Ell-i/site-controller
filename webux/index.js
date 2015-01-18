@@ -85,13 +85,7 @@ handle["/lowlight/mannequins/Rokka"]      = handlers.light("mannequins/Rokka", "
 
 handle["/time"]= handlers.time();
 
-
 server.start(router.route, handle);
-
-
-
-
-
 
 var sceneChunks = "";
 var ledChunks = "";

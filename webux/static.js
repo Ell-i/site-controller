@@ -2,9 +2,6 @@ var a = 0;
 var b = 0;
 var inc = 2;
 
-
-
-
 var stateObjs = {
   night1 : {
     type: "night-lamp",
