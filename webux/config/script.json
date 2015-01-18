@@ -1,0 +1,14 @@
+{
+    "entry": {
+        "time"  : 0,
+        "set"   : "all",
+        "state" : 0,
+        "delay" : 100
+    },
+    "entry": {
+        "time"  : 10800,
+        "set"   : "ceiling",
+        "state" : 0,
+        "delay" : 200
+    }
+}
