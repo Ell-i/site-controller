@@ -1,0 +1,17 @@
+body {
+	margin:50px 0px; padding:0px;
+	text-align:center;
+	background-image: url("./wood-background-1.jpg");
+}
+
+#content {
+	width:600px;
+	margin:0px auto;
+	text-align:left;
+	padding:15px;
+	background-color:#cdb79e;
+	}
+
+h3 {
+         text-transform: uppercase;
+    }
