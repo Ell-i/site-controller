@@ -1,0 +1,41 @@
+The Site Controller internal architecture as it is now:
+
+coap_pinger.js      // constructs coap messages
+                    //  (not pings, needs renaming)
+                    //  
+
+config
+config_static.js    // configuration details
+
+demo.html
+demo.png            // old demo from 2013 results day
+
+handlers.js         // this is where actions are defined
+                    //  /actuators/leds36?r=0&g=0&b=0    <-- and the others
+                    //  /commands/stop                   <-- these too
+
+index.js            // http://10.1.1.2:8888/ <-- this is the root page
+
+light_handler.js    // beginnings of light control state machine
+
+lock.html
+lock_closed.png
+lock_open.png       // old stuff from 2013 results day
+
+node_modules
+
+pollcmd.js
+poller.js           // polls the cloud service constantly and gets instructions
+
+process.js          // dunno
+
+router.js           // url router function for handlers defined in handlers.js
+
+server.js           // http server in Node.js
+
+server_side/        // the cloud server part lives in here
+
+static.js           // lamp name to ip static mapping and other stuff
+
+time.js             // time counting stuff
+
