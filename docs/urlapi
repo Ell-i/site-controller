@@ -1,0 +1,37 @@
+Here are some url schemes available on the ELL-i Site Controller software
+
+The site controller is at port 8888 of server ip 10.1.1.2, so that the urls
+will look like http://10.1.1.2:8888/something
+
+Now, the 'something' is just a placeholder word and there are lots of more
+complex scene triggering and querying. Here I have mapped a subset of the
+urls you might need during Open Illuminati Hackathon. Two kinds of devices
+are supported, which is reflected in the url schemes as well.
+
+The urls for ELL-i lights have a base path and some query GET/POST parameters.
+
+Base paths for ELL-i devices
+----------------------------
+/actuators/leds40            // reminder for Teemu// vallila-m
+/actuators/leds41            // reminder for Teemu// vallila-m
+/actuators/leds34            // reminder for Teemu// ahto-l
+/actuators/leds35            // reminder for Teemu// ahto-l
+
+These have parameters r, g and b, whose range of values are from 0 to 255.
+Both GET and POST methods work, with GET being easier to debug using the
+browser or curl.
+
+A nice example url for shutting down the light at device "leds36" is:
+   http://10.1.1.2:8888/actuators/leds36?r=0&g=0&b=0
+
+This can be easily tested from the command line like so:
+% curl '10.1.1.2:8888/actuators/leds34?r=0&g=0&b=0'
+% curl '10.1.1.2:8888/actuators/leds35?r=255&g=255&b=255'
+
+Url bases for DALi commands
+----------------------
+/TÖTTÖRÖÖ/
+
+Many individual devices have urls mapped for them.
+The individual ELL-i Leaf Node leds are addressed like this:
+
