@@ -1,5 +1,4 @@
 var coapOjb = require('coap');
-var dali = require('dali-lib');
 
 function sendCoapLeds(address, f, s, t, e) {
   var coapMsg = {method: "put", hostname:address, pathname:"leds", confirmable:"false"}

@@ -3,8 +3,8 @@ var server   = require("./server");
 var router   = require("./router");
 var handlers = require("./handlers");
 var coapPinger = require("./coap_pinger");
-
-var dali = require('dali-lib');
+//TODO: Enable when dali-lib is public
+//var dali = require('dali-lib');
 
 var handle = {}
 
@@ -184,7 +184,8 @@ function sendScene() {
     if(sceneState.scene == "SCENE 8") scene = 8;
     
     if(scene != lastScene){
-    dali.recall_scene_group(100, 1, scene, 0, 250);
+    //TODO: Enable when dali-lib is public
+    //dali.recall_scene_group(100, 1, scene, 0, 250);
     lastScene = scene;
     console.log ("Setting scene " + scene);
     }

@@ -4,7 +4,8 @@
 
 var http=require("http");
 var url=require("url");
-var dali=require("dali-lib");
+//TODO: Enable when dali-lib is public
+//var require("dali-lib");
 var config=require("./config_static");
 var time=require("./time");
 
@@ -34,7 +35,8 @@ function start(route, handle){
     http.createServer(onRequest).listen(8888);
     console.log("Server has started.");
 
-    dali.init("10.254.1.1", function(){});
+    //TODO: Enable when dali-lib is public
+    //dali.init("10.254.1.1", function(){});
     config.init();
     time.init();
 }

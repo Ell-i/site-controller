@@ -1,5 +1,6 @@
 var s = require("./static");
-var dali = require('dali-lib');
+//TODO: Enable when dali-lib is public
+//var dali = require('dali-lib');
 
 var element;
 
@@ -33,6 +34,8 @@ function update_elements() {
 
 function process(element) {
     update_elements();
+    //TODO: Enable when dali-lib is public
+    /*
     switch (element.set) {
         case "all":
             dali.direct_level_device(night1.address,    element.state, element.delay)
@@ -73,6 +76,7 @@ function process(element) {
             dali.direct_level_device(ceiling2.address,  element.state, element.delay)
             break;
     }
+    */
 }
 
 module.exports.process = process;
