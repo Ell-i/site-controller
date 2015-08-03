@@ -1,5 +1,7 @@
 The Site Controller internal architecture as it is now:
 
+Site contreoller is buildt on top of node.js 
+
 coap_pinger.js      // constructs coap messages
                     //  (not pings, needs renaming)
                     //  
