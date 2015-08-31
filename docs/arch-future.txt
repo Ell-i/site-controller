@@ -1,0 +1,44 @@
+We'll diverge towards Clean Architecture, and start with outlining how Asif's sun emulator idea
+maps into Clean and how that then controls a real lighting system.
+
+The sun emulator is a stateless pure function, that with help from some helpers returns
+how much and what color light would the sun produce from that direction of the sky.
+
+This represents our functional core around which we put the stateful but still pretty abstract
+and usually-nonfailing code. On the outliers of this through some wrapper classes to abstract away
+the dependencies to actual system libraries. The abstraction classes should deal with the
+necessary exceptions to handle inevitable failures in communication, storage etc, so that the
+inner parts are more pure and Just Work(TM).
+
+Drawn "from the side" if we consider that the architecture is formed of layers and that the inner
+pieces are topologically on top of the outlier parts, the system looks like this:
+
+
+ <functional sun>-------------------<calendar event in situ>
+ <lamp class>                       <calendar event generator>------<calendar storage>
+ <communication world handler>      <time world handler>            <storage world handler>
+ <coap handler (us)>                <time (kernel)>                 <json on disk? nosql?>
+ <CoAP (coap npm)>
+ <CoAP (coap-packet npm)>
+ <L3 IP (kernel)>
+ <L2 mac (kernel)>
+
+The lamp class is a generic lamp class, with the object instance coupled to a particular model
+that then knows of the handlers involved.
+
+Coap handler abstraction might be refactored in after fleshing out a working skeleton.
+
+I wanted to express this as plaintext partially because it is so painfully slow it forces
+to think with more reconsideration (analogous to writing a book by hand) and partially as
+I don't have anything other than Dia installed and it is annoying. We'll draw this in
+better form.
+
+So, in here we see a number of relatively small classes that are coupled vertically
+and horizontal couplings have been minimized. This is a kind of mvp system but now the
+architecture can be added with the next parts:
+- pump abstraction and control
+- sensor input
+- calendar configurator (keep it minimal)
+- authentication facilities
+- DALi
+- 
